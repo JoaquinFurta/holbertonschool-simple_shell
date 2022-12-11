@@ -25,17 +25,28 @@ int main(void)
 			free(command);
 			return(-1);
         	}
+		
+		if (isatty(STDIN_FILENO) == 1)
+			printf("$ ");
 
-		printf("$ ");
 		res = gt(S_args);
 
 		if (res == -1)
 		{
-			free(command);
-			free(S_args);
-			return(-1);
+			if (isatty(STDIN_FILENO) == 1)
+			{
+				free(command);
+				free(S_args);
+				return (-1);
+			}
+			if (isatty(STDIN_FILENO) == 0)
+			{
+				printf("\n");
+				free(command);
+				free(S_args);
+				continue;
+			}
 		}
-
 		argcv = malloc(sizeof(char *) * res);
 
 		if (argcv == NULL)
@@ -47,6 +58,15 @@ int main(void)
 		}
 
 		token = strtok(*S_args," \n\t");
+
+		if (strcmp(token, "exit") == 0)
+		{
+			free(*S_args);
+			free(S_args);
+			free(command);
+			free(argcv);
+			return (0);
+		}
 
 		while (token)
 		{
@@ -62,7 +82,6 @@ int main(void)
 			*command = argcv[0];
 			if ((Pfind(command)) == 0)
 			{
-
 				boolean = 1;
 				argcv[0] = *command;
 	
@@ -78,7 +97,6 @@ int main(void)
 				continue;
 			}
 		}
-
 		id = fork();
 
 		if (id == -1)
@@ -89,7 +107,6 @@ int main(void)
 			free(S_args);
 			return(-1);
 		}
-
 		if (id == 0)
 		{
 			if (execve(argcv[0],argcv,environ) == -1)
@@ -98,7 +115,6 @@ int main(void)
 				return (0);
 			}
 		}
-
 		else
 		{
 			wait(&status);

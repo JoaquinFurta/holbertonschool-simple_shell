@@ -10,7 +10,7 @@ int gt(char **S_args)
 {
 	char *buff = NULL;
 	size_t bufflen = 0;
-	ssize_t gtres;
+	ssize_t gtres = 0;
 	char *token;
 	int cont = 0;
 
@@ -90,7 +90,6 @@ int Pfind(char **command)
 		strcpy(cpy, Path[i]);
 		strcat(cpy, "/");
 		strcat(cpy, *command);
-		printf("%d -> %s\n", i, cpy);
 		if (stat(cpy, &pet) == 0)
 		{
 			*command = cpy;
@@ -103,6 +102,5 @@ int Pfind(char **command)
 	} 
 	free(Pathcpy);
 	free(Path);
-	printf("SALGO ACA\n");
 	return(-1);
 }
