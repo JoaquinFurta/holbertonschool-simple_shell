@@ -33,18 +33,16 @@ int main(void)
 
 		if (res == -1)
 		{
-			if (isatty(STDIN_FILENO) == 1)
-			{
-				free(command);
-				free(S_args);
-				return (-1);
-			}
+			free(command);
+			free(S_args);
+			return (-1);
 		}
+		
 		argcv = malloc(sizeof(char *) * res);
 
 		if (argcv == NULL)
 		{
-			die_free("SPP", *S_args, S_args, command);
+			die_free("PP", S_args, command);
 			return (-1);
 		}
 

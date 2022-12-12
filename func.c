@@ -10,7 +10,7 @@ int gt(char **S_args)
 {
 	char *buff = NULL;
 	size_t bufflen = 0;
-	ssize_t gtres = 0;
+	int gtres = 0;
 	char *token;
 	int cont = 0;
 
@@ -107,7 +107,7 @@ int Pfind(char **command)
 /**
  * _getenv - finds a enviroment variable
  *
- * @name = name of the variable to find
+ * @name : name of the variable to find
  *
  * Returns - A pointer to a duplicate of the variable or NULL if it fails
  */
@@ -150,28 +150,33 @@ char *_getenv(const char *name)
 
 int die_free(char *typearg, ...)
 {
-        int i, len;
-        va_list n_para;
+	int i, len;
+	va_list n_para;
 
-        len = _strlen(typearg);
+	len = _strlen(typearg);
 
-        va_start(n_para, typearg);
+	va_start(n_para, typearg);
 
-        for (i = 0; i < len; i++)
-        {
-                if (typearg[i] == 'P')
-                        free(va_arg(n_para, char **));
+	for (i = 0; i < len; i++)
+	{
+		if (typearg[i] == 'P')
+			free(va_arg(n_para, char **));
 
-                else if (typearg[i] == 'S')
-                        free(va_arg(n_para, char *));
+		else if (typearg[i] == 'S')
+			free(va_arg(n_para, char *));
 
-                else
-                {
-                        printf("ERROR\n\n");
-                        return (-1);
-                }
-        }
-        return (0);
+		else
+		{
+			printf("ERROR\n\n");
+			return (-1);
+		}
+	}
+	return (0);
 }
 
+/**
+ *
+ *
+ *
+ */
 
