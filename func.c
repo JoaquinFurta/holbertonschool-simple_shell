@@ -1,6 +1,6 @@
 #include "shell.h"
 
-/** 
+/**
  * gt - calls getline and counts the number of argcv
  * @S_args: a poniter to a string
  * Return: the number of argcv , (-1) if it fails
@@ -18,22 +18,21 @@ int gt(char **S_args)
 	if (gtres == -1)
 	{
 		free(buff);
-		return(-1);
+		return (-1);
 	}
 
-
-	*S_args = strdup(buff);
+	*S_args = _strdup(buff);
 	if (*S_args == NULL)
 	{
 		free(buff);
-		return(-1);
+		return (-1);
 	}
 
-	token = strtok(buff,"\n ");
+	token = strtok(buff, "\n ");
 	while (token)
 	{
 		cont++;
-		token = strtok (NULL,"\n ");
+		token = strtok(NULL, "\n ");
 	}
 	free(buff);
 	return (cont + 1);
@@ -50,15 +49,15 @@ int Pfind(char **command)
 	char **Path, *Pathcpy, *token, *cpy;
 	int i = 0, cont = 0;
 	struct stat pet;
-	
-	Pathcpy = strdup(getenv("PATH"));
 
-	cpy = strdup(Pathcpy);
+	Pathcpy = _getenv("PATH");
+
+	cpy = _strdup(Pathcpy);
 	if (cpy == NULL)
-		return(-1);
-	
+		return (-1);
+
 	token = strtok(cpy, ":");
-        while (token)
+	while (token)
 	{
 		cont++;
 		token = strtok(NULL, ":");
@@ -72,7 +71,7 @@ int Pfind(char **command)
 		return (-1);
 
 	token = strtok(Pathcpy, ":");
-	while(token)
+	while (token)
 	{
 		Path[i] = token;
 		token = strtok(NULL, ":");
@@ -81,26 +80,98 @@ int Pfind(char **command)
 	Path[cont] = NULL;
 	for (i = 0; i < cont; i++)
 	{
-		cpy = malloc(strlen(Path[i]) + strlen(*command) + 2);
+		cpy = malloc(_strlen(Path[i]) + _strlen(*command) + 2);
 		if (cpy == NULL)
 		{
 			free(Path);
-			return(-1);
+			return (-1);
 		}
-		strcpy(cpy, Path[i]);
-		strcat(cpy, "/");
-		strcat(cpy, *command);
+		_strcpy(cpy, Path[i]);
+		_strcat(cpy, "/");
+		_strcat(cpy, *command);
 		if (stat(cpy, &pet) == 0)
 		{
 			*command = cpy;
 			free(Path);
 			free(Pathcpy);
-			return(0);
+			return (0);
 		}
 		free(cpy);
 		cpy = NULL;
-	} 
+	}
 	free(Pathcpy);
 	free(Path);
-	return(-1);
+	return (-1);
 }
+
+/**
+ * _getenv - finds a enviroment variable
+ *
+ * @name = name of the variable to find
+ *
+ * Returns - A pointer to a duplicate of the variable or NULL if it fails
+ */
+
+char *_getenv(const char *name)
+{
+	char *envcpy, *tok, *aux;
+	int i;
+
+	for (i = 0; environ[i]; i++)
+	{
+		envcpy = _strdup(environ[i]);
+		if (envcpy == NULL)
+			return (NULL);
+
+		tok = strtok(envcpy, "=");
+
+		if (_strcmp(tok, name) == 0)
+		{
+			tok = strtok(NULL, "=");
+			break;
+		}
+
+		free(envcpy);
+		tok = NULL;
+	}
+	aux = _strdup(tok);
+	free(envcpy);
+	return (aux);
+}
+
+/**
+ * die_free - releases the memory
+ *
+ * @typearg: type of args to free
+ * @...: variable args
+ *
+ * Return: (0) if succed (-1) fi it fails
+ */
+
+int die_free(char *typearg, ...)
+{
+        int i, len;
+        va_list n_para;
+
+        len = _strlen(typearg);
+
+        va_start(n_para, typearg);
+
+        for (i = 0; i < len; i++)
+        {
+                if (typearg[i] == 'P')
+                        free(va_arg(n_para, char **));
+
+                else if (typearg[i] == 'S')
+                        free(va_arg(n_para, char *));
+
+                else
+                {
+                        printf("ERROR\n\n");
+                        return (-1);
+                }
+        }
+        return (0);
+}
+
+
