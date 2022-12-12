@@ -17,5 +17,5 @@ char *_strcat(char *, char *);
 char *_strcpy(char *, char *);
 char *_strdup(char *);
 char *_getenv(const char *);
-int die_free(char *,...);
+int die_free(char *, ...);
 #endif
