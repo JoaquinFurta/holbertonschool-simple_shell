@@ -17,13 +17,13 @@ int main(void)
 
 		command = malloc(sizeof(char *));
 		if (command == NULL)
-			return (-1);
+			return (0);
 
 		S_args = malloc(sizeof(char *));
 		if (S_args == NULL)
 		{
 			free(command);
-			return (-1);
+			return (0);
         	}
 
 		if (isatty(STDIN_FILENO) == 1)
@@ -35,7 +35,7 @@ int main(void)
 		{
 			free(command);
 			free(S_args);
-			return (-1);
+			return (0);
 		}
 		
 		argcv = malloc(sizeof(char *) * res);
@@ -43,7 +43,7 @@ int main(void)
 		if (argcv == NULL)
 		{
 			die_free("PP", S_args, command);
-			return (-1);
+			return (0);
 		}
 
 		token = strtok(*S_args," \n\t");
