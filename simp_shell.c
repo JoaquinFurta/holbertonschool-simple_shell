@@ -39,13 +39,6 @@ int main(void)
 				free(S_args);
 				return (-1);
 			}
-			if (isatty(STDIN_FILENO) == 0)
-			{
-				printf("\n");
-				free(command);
-				free(S_args);
-				continue;
-			}
 		}
 		argcv = malloc(sizeof(char *) * res);
 
@@ -100,7 +93,7 @@ int main(void)
 			if (execve(argcv[0], argcv, environ) == -1)
 			{
 				perror(argcv[0]);
-				return (0);
+				exit(0);
 			}
 		}
 		else
