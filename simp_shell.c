@@ -55,7 +55,7 @@ int main(void)
 		if (_strcmp(token, "exit") == 0)
 		{
 			die_free("SPPP", *S_args, S_args, command, argcv);
-			return (0);
+			exit(2);
 		}
 
 		while (token)
@@ -78,7 +78,7 @@ int main(void)
 			else
 			{
 				if (argcv[0] != NULL)
-					fprintf(stdout, "$: %d: %s: not found\n", x, *command);
+					fprintf(stderr, "$: %d: %s: not found\n", x, *command);
 				die_free("SPPP", *S_args, S_args, command, argcv);
 				continue;
 			}
