@@ -2,12 +2,12 @@
 
 
 
-int main(void)
+int main(__attribute__ ((unused))int argc, char **args)
 {
 	char **argcv = NULL;
 	char **S_args = NULL, **command = NULL, *token = NULL;
 	struct stat pet;
-	int res, id, i, x = 0, boolean, status;
+	int res, id, i, x = 0, boolean, status, checker = 0;
 	
 	while (1)
 	{
@@ -55,7 +55,10 @@ int main(void)
 		if (_strcmp(token, "exit") == 0)
 		{
 			die_free("SPPP", *S_args, S_args, command, argcv);
-			exit(2);
+			if (checker > 0)
+				exit(2);
+			else
+				exit(0);
 		}
 
 		while (token)
@@ -78,7 +81,10 @@ int main(void)
 			else
 			{
 				if (argcv[0] != NULL)
-					fprintf(stderr, "$: %d: %s: not found\n", x, *command);
+				{
+					fprintf(stderr, "%s: %d: %s: not found\n", args[0], x, *command);
+					checker++;
+				}
 				die_free("SPPP", *S_args, S_args, command, argcv);
 				continue;
 			}
