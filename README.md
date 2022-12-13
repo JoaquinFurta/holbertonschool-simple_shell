@@ -30,7 +30,7 @@ At the end of Simple Shell Project we should have a solid understanding of the f
 [Who is Ken Thompson](https://en.wikipedia.org/wiki/Ken_Thompson)
 
 ## Flowchart
-(pending)
+![image](https://user-images.githubusercontent.com/113607320/207450232-fad74692-1c54-44a8-a70f-277ee78d7843.png)
 
 
 ## List of allowed functions and system calls 
