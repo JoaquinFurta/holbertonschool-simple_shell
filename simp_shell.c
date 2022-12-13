@@ -33,11 +33,15 @@ int main(void)
 
 		if (res == -1)
 		{
-			free(command);
-			free(S_args);
-			return (0);
+			die_free("PS", command, S_args);
+			return(0);
 		}
-		
+		else if (res == -2)
+		{
+			die_free("PS", command, S_args);
+			continue;
+		}
+
 		argcv = malloc(sizeof(char *) * res);
 
 		if (argcv == NULL)

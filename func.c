@@ -3,16 +3,14 @@
 /**
  * gt - calls getline and counts the number of argcv
  * @S_args: a poniter to a string
- * Return: the number of argcv , (-1) if it fails
+ * Return: the number of argcv , (-1) or (-2) if it fails
  */
 
 int gt(char **S_args)
 {
-	char *buff = NULL;
+	char *buff = NULL, *token;
 	size_t bufflen = 0;
-	int gtres = 0;
-	char *token;
-	int cont = 0;
+	int gtres = 0, cont = 0;
 
 	gtres = getline(&buff, &bufflen, stdin);
 	if (gtres == -1)
@@ -29,6 +27,12 @@ int gt(char **S_args)
 	}
 
 	token = strtok(buff, "\n ");
+	if (!token)
+	{
+		die_free("SS", buff, *S_args);
+		return (-2);
+	}
+
 	while (token)
 	{
 		cont++;
