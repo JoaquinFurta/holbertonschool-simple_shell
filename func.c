@@ -8,9 +8,10 @@
 
 int gt(char **S_args)
 {
-	char *buff = NULL, *token;
+	char *buff = NULL;
 	size_t bufflen = 0;
-	int gtres = 0, cont = 0;
+	int res = 0;
+	int gtres;
 
 	gtres = getline(&buff, &bufflen, stdin);
 	if (gtres == -1)
@@ -25,23 +26,19 @@ int gt(char **S_args)
 		free(buff);
 		return (-1);
 	}
-
-	token = strtok(buff, "\n ");
-	if (!token)
+	res = tokcont(buff, "\n\t ");
+	if (res == -1)
 	{
 		die_free("SS", buff, *S_args);
 		return (-2);
 	}
-
-	while (token)
+	else
 	{
-		cont++;
-		token = strtok(NULL, "\n ");
+		free(buff);
+		return (res);
 	}
-	free(buff);
-	return (cont + 1);
-}
 
+}
 /**
  * Pfind - verifies if the command is in the PATH.
  * @command: command to verfy
@@ -55,6 +52,8 @@ int Pfind(char **command)
 	struct stat pet;
 
 	Pathcpy = _getenv("PATH");
+	if (Pathcpy == NULL)
+		return (-1);
 
 	cpy = _strdup(Pathcpy);
 	if (cpy == NULL)
@@ -113,7 +112,7 @@ int Pfind(char **command)
  *
  * @name : name of the variable to find
  *
- * Returns - A pointer to a duplicate of the variable or NULL if it fails
+ * Return: A pointer to a duplicate of the variable or NULL if it fails
  */
 
 char *_getenv(const char *name)
@@ -134,7 +133,6 @@ char *_getenv(const char *name)
 			tok = strtok(NULL, "=");
 			break;
 		}
-
 		free(envcpy);
 		tok = NULL;
 	}
@@ -179,8 +177,29 @@ int die_free(char *typearg, ...)
 }
 
 /**
+ * tokcont - count nº of tokens
  *
+ * @str : str to count
+ * @delim: delimiter to tokenize
  *
- *
+ *Return: (-1) if it fails, number of tok plus 1 if succed
  */
 
+int tokcont(char *str, char *delim)
+
+{
+	char *tok;
+	int cont = 0;
+
+	tok = strtok(str, delim);
+
+	if (!tok)
+		return (-1);
+
+	while (tok)
+	{
+		cont++;
+		tok = strtok(NULL, delim);
+	}
+	return (cont +	1);
+}

@@ -78,7 +78,7 @@ int main(void)
 			else
 			{
 				if (argcv[0] != NULL)
-					printf("$: %d: %s: not found\n", x, *command);
+					fprintf(stdout, "$: %d: %s: not found\n", x, *command);
 				die_free("SPPP", *S_args, S_args, command, argcv);
 				continue;
 			}
