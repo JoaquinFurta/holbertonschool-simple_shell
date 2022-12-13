@@ -18,4 +18,5 @@ char *_strcpy(char *, char *);
 char *_strdup(char *);
 char *_getenv(const char *);
 int die_free(char *, ...);
+int tokcont(char *, char *);
 #endif
